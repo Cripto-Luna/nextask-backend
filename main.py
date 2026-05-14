@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import anthropic
+import requests
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -14,8 +14,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 
 SYSTEM_PROMPT = """Eres el asistente virtual de NexTask, una empresa de automatización y documentos profesionales.
 Servicios que ofrecemos:
@@ -45,17 +43,25 @@ async def chat(req: ChatRequest):
     keywords_wa = ["cotizar", "precio", "costo", "cuánto", "contratar", "quiero", "necesito", "pedido"]
     redirect = any(kw in req.message.lower() for kw in keywords_wa)
 
-    message = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=300,
-        system=SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": req.message}]
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    response = requests.post(
+        "https://api.anthropic.com/v1/messages",
+        headers={
+            "x-api-key": api_key,
+            "anthropic-version": "2023-06-01",
+            "content-type": "application/json"
+        },
+        json={
+            "model": "claude-haiku-4-5-20251001",
+            "max_tokens": 300,
+            "system": SYSTEM_PROMPT,
+            "messages": [{"role": "user", "content": req.message}]
+        },
+        timeout=30
     )
+    reply = response.json()["content"][0]["text"]
 
-    return ChatResponse(
-        reply=message.content[0].text,
-        redirect_wa=redirect
-    )
+    return ChatResponse(reply=reply, redirect_wa=redirect)
 
 @app.get("/health")
 def health():
