@@ -59,7 +59,9 @@ async def chat(req: ChatRequest):
         },
         timeout=30
     )
-    reply = response.json()["content"][0]["text"]
+    data = response.json()
+    print(f"Anthropic status: {response.status_code}, data: {data}")
+    reply = data["content"][0]["text"]
 
     return ChatResponse(reply=reply, redirect_wa=redirect)
 
