@@ -43,7 +43,7 @@ async def chat(req: ChatRequest):
     keywords_wa = ["cotizar", "precio", "costo", "cuánto", "contratar", "quiero", "necesito", "pedido"]
     redirect = any(kw in req.message.lower() for kw in keywords_wa)
 
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
     response = requests.post(
         "https://api.anthropic.com/v1/messages",
         headers={
