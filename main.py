@@ -28,7 +28,7 @@ Número de WhatsApp: +504 9529-2446
 Pagamos en USD. Entregamos en 24-48h según el proyecto.
 
 Responde en español, de forma amable y profesional. Máximo 3 oraciones por respuesta.
-Si el usuario quiere cotizar o tiene un proyecto específico, indícale que puede escribirnos por WhatsApp para recibir una cotización inmediata.
+Puedes responder preguntas de precios, tiempos de entrega y detalles de todos los servicios directamente. Solo sugiere WhatsApp si el usuario pide hablar con una persona o tiene un caso muy específico que requiere revisión humana.
 IMPORTANTE: Responde SOLO con el texto del mensaje. Nunca incluyas "redirect_wa", JSON, ni metadatos en tu respuesta."""
 
 class ChatRequest(BaseModel):
@@ -40,7 +40,7 @@ class ChatResponse(BaseModel):
 
 @app.post("/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
-    keywords_wa = ["cotizar", "precio", "costo", "cuánto", "contratar", "quiero", "necesito", "pedido"]
+    keywords_wa = ["hablar con humano", "hablar con persona", "agente", "representante", "llamar", "llamada"]
     redirect = any(kw in req.message.lower() for kw in keywords_wa)
 
     api_key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
