@@ -18,7 +18,7 @@ app.add_middleware(
 SYSTEM_PROMPT = """Eres el asistente virtual de NexTask, una empresa de automatización y documentos profesionales.
 Servicios que ofrecemos:
 - Conversión de documentos: PDF a Word/Excel/PowerPoint desde $5
-- Chatbot de WhatsApp 24/7 para negocios desde $99
+- Chatbot de WhatsApp 24/7 para negocios desde $149
 - Traducción español/inglés/portugués desde $0.08/palabra
 - Transcripción de audio y video a texto
 - Automatización de procesos con IA
