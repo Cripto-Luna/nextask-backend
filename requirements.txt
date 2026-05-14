@@ -1,5 +1,6 @@
 fastapi
 uvicorn
 anthropic
+httpx
 pydantic
 python-dotenv
