@@ -15,9 +15,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-SYSTEM_PROMPT = """Eres el asistente virtual de NexTask, una empresa de automatización y documentos profesionales.
+SYSTEM_PROMPT = """Eres el asistente virtual de Tecnología Para Todos, una empresa de automatización y documentos profesionales.
 Servicios que ofrecemos:
-- Conversión de documentos: PDF a Word/Excel/PowerPoint desde $5
+- Conversión de documentos PDF a Word/Excel/PowerPoint:
+  * 1-10 páginas: $5
+  * 11-30 páginas: $12
+  * 31-50 páginas: $20
+  * 51-100 páginas: $35
+  * Más de 100 páginas: cotizar (precio especial)
+  Incluye revisión y formateo profesional. Entrega en 2-4h según el volumen.
 - Chatbot de WhatsApp 24/7 para negocios desde $149
 - Traducción español/inglés/portugués desde $0.08/palabra
 - Transcripción de audio y video a texto
