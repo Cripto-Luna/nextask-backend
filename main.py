@@ -1,9 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import requests
 import os
 import smtplib
+import threading
 from email.mime.text import MIMEText
 from dotenv import load_dotenv
 load_dotenv()
@@ -101,7 +102,7 @@ async def chat(req: ChatRequest):
     reply = data["content"][0]["text"]
 
     if redirect:
-        notify_lead(req.message)
+        threading.Thread(target=notify_lead, args=(req.message,), daemon=True).start()
 
     return ChatResponse(reply=reply, redirect_wa=redirect)
 
