@@ -74,7 +74,9 @@ async def chat(req: ChatRequest):
         "agente", "representante", "llamar", "llamada",
         "hablar con ustedes", "contactar", "contacto", "asesor",
         "alguien me ayude", "persona real", "quiero hablar",
-        "puedo hablar", "necesito hablar", "hablar directamente"
+        "puedo hablar", "necesito hablar", "hablar directamente",
+        "dueño", "dueno", "gerente", "administrador", "encargado",
+        "responsable", "jefe", "propietario", "con quien", "con quién"
     ]
     redirect = any(kw in req.message.lower() for kw in keywords_wa)
 
