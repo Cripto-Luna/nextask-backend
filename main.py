@@ -40,8 +40,13 @@ Responde en español, de forma amable y profesional. Máximo 3 oraciones por res
 REGLA IMPORTANTE: Responde DIRECTAMENTE preguntas de precios, tiempos y detalles de TODOS los servicios sin excepción, incluyendo páginas web ($150), chatbots ($149) y documentos. NUNCA digas "contáctanos por WhatsApp" ni "escríbenos" para cotizar precios estándar — eso lo manejas tú directamente. Solo menciona WhatsApp si el usuario pide explícitamente hablar con una persona humana.
 IMPORTANTE: Responde SOLO con el texto del mensaje. Nunca incluyas "redirect_wa", JSON, ni metadatos en tu respuesta."""
 
+class HistoryMessage(BaseModel):
+    role: str
+    content: str
+
 class ChatRequest(BaseModel):
     message: str
+    history: list[HistoryMessage] = []
 
 class ChatResponse(BaseModel):
     reply: str
@@ -91,7 +96,7 @@ async def chat(req: ChatRequest):
             "model": "claude-haiku-4-5-20251001",
             "max_tokens": 300,
             "system": SYSTEM_PROMPT,
-            "messages": [{"role": "user", "content": req.message}]
+            "messages": [{"role": m.role, "content": m.content} for m in req.history[-8:]] + [{"role": "user", "content": req.message}]
         },
         timeout=30
     )
