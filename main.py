@@ -73,6 +73,12 @@ async def chat(req: ChatRequest):
     ]
     redirect = any(kw in req.message.lower() for kw in keywords_wa)
 
+    if redirect:
+        return ChatResponse(
+            reply="¡Perfecto! Te conecto con nuestro equipo ahora mismo para coordinar los detalles. 👇",
+            redirect_wa=True
+        )
+
     api_key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
     response = requests.post(
         "https://api.anthropic.com/v1/messages",
@@ -93,7 +99,7 @@ async def chat(req: ChatRequest):
     print(f"Anthropic status: {response.status_code}, data: {data}")
     reply = data["content"][0]["text"]
 
-    return ChatResponse(reply=reply, redirect_wa=redirect)
+    return ChatResponse(reply=reply, redirect_wa=False)
 
 @app.get("/health")
 def health():
