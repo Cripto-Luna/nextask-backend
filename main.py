@@ -69,7 +69,13 @@ def notify_lead(message: str):
 
 @app.post("/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
-    keywords_wa = ["hablar con humano", "hablar con persona", "agente", "representante", "llamar", "llamada"]
+    keywords_wa = [
+        "hablar con humano", "hablar con persona", "hablar con alguien",
+        "agente", "representante", "llamar", "llamada",
+        "hablar con ustedes", "contactar", "contacto", "asesor",
+        "alguien me ayude", "persona real", "quiero hablar",
+        "puedo hablar", "necesito hablar", "hablar directamente"
+    ]
     redirect = any(kw in req.message.lower() for kw in keywords_wa)
 
     api_key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
