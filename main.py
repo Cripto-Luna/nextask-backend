@@ -50,13 +50,26 @@ class ChatResponse(BaseModel):
 @app.post("/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
     keywords_wa = [
+        # Pedir hablar con alguien
         "hablar con humano", "hablar con persona", "hablar con alguien",
         "agente", "representante", "llamar", "llamada",
-        "hablar con ustedes", "contactar", "contacto", "asesor",
-        "alguien me ayude", "persona real", "quiero hablar",
-        "puedo hablar", "necesito hablar", "hablar directamente",
+        "hablar con ustedes", "asesor", "alguien me ayude", "persona real",
+        "quiero hablar", "puedo hablar", "necesito hablar", "hablar directamente",
         "dueño", "dueno", "gerente", "administrador", "encargado",
-        "responsable", "jefe", "propietario", "con quien", "con quién"
+        "responsable", "jefe", "propietario", "con quien", "con quién",
+        # Intención de contratar
+        "quiero contratar", "deseo contratar", "voy a contratar",
+        "quiero el servicio", "necesito el servicio", "me interesa el servicio",
+        "quiero ordenar", "quiero pedir", "quiero solicitar",
+        "como contrato", "cómo contrato", "como ordeno", "cómo ordeno",
+        # Intención de pagar
+        "voy a pagar", "quiero pagar", "como pago", "cómo pago",
+        "voy hacer el pago", "voy a hacer el pago", "hacer el pago",
+        "enviar el pago", "realizar el pago", "proceder con el pago",
+        "pagar ahora", "pagar por paypal", "transferencia",
+        # Listo para proceder
+        "quiero empezar", "cuando empezamos", "listo para empezar",
+        "acepto", "de acuerdo", "trato hecho", "me lo haces",
     ]
     redirect = any(kw in req.message.lower() for kw in keywords_wa)
 
