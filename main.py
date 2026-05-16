@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import requests
 import os
+import smtplib
+from email.mime.text import MIMEText
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -47,6 +49,24 @@ class ChatResponse(BaseModel):
     reply: str
     redirect_wa: bool = False
 
+def notify_lead(message: str):
+    gmail_user = "1962shopify@gmail.com"
+    gmail_pass = os.environ.get("GMAIL_APP_PASSWORD", "").strip()
+    if not gmail_pass:
+        return
+    try:
+        body = f"Lead en la pagina web:\n\n\"{message}\"\n\nEl cliente pidio hablar con una persona."
+        msg = MIMEText(body)
+        msg["Subject"] = "LEAD - Tecnologia Para Todos"
+        msg["From"] = gmail_user
+        msg["To"] = gmail_user
+        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+            server.starttls()
+            server.login(gmail_user, gmail_pass)
+            server.send_message(msg)
+    except Exception as e:
+        print(f"Notificacion fallida: {e}")
+
 @app.post("/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
     keywords_wa = ["hablar con humano", "hablar con persona", "agente", "representante", "llamar", "llamada"]
@@ -71,6 +91,9 @@ async def chat(req: ChatRequest):
     data = response.json()
     print(f"Anthropic status: {response.status_code}, data: {data}")
     reply = data["content"][0]["text"]
+
+    if redirect:
+        notify_lead(req.message)
 
     return ChatResponse(reply=reply, redirect_wa=redirect)
 
