@@ -25,6 +25,7 @@ Servicios que ofrecemos:
   * Más de 100 páginas: cotizar (precio especial)
   Incluye revisión y formateo profesional. Entrega en 2-4h según el volumen.
 - Chatbot de WhatsApp 24/7 para negocios desde $149
+- Integración de bot en página web existente (WordPress, Wix, Squarespace, HTML): $149. El cliente solo da acceso a su página, nosotros hacemos todo. Entrega en 1-2 días.
 - Traducción español/inglés/portugués desde $0.08/palabra
 - Transcripción de audio y video a texto
 - Automatización de procesos con IA
